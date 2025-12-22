@@ -9,7 +9,7 @@ function App() {
       <MainLayout>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          {/* <Route path="/post/:postId" element={<PostDetailPage />} /> */}
+          <Route path="/post/:postId" element={<div>Post Detail</div>} />
         </Routes>
       </MainLayout>
       <Toaster position="top-right" richColors />
