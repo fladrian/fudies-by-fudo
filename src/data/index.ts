@@ -1,4 +1,3 @@
-export * from './schemas/userSchema';
-export * from './schemas/postSchema';
-export * from './repositories/MockUserRepository';
-export * from './repositories/MockPostRepository';
+export * from './schemas';
+export * from './repositories';
+export * from './types';

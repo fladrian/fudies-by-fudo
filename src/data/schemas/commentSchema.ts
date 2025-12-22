@@ -1,13 +1,12 @@
 import { z } from 'zod';
-import { post } from '@core/entities';
+import { comment } from '@core/entities';
 
-
-export const postFormSchema = post.omit({ id: true }).extend({
-  title: z.string().min(1, 'Title is required').max(200, 'Title is too long'),
+export const commentFormSchema = comment.omit({ id: true }).extend({
   content: z.string().min(1, 'Content is required'),
   name: z.string().min(1, 'Name is required'),
   avatar: z.string().url('Must be a valid URL').or(z.literal('')),
+  parentId: z.string().nullable(),
   createdAt: z.string().datetime().optional(),
 });
 
-export type PostFormData = z.infer<typeof postFormSchema>;
+export type CommentFormData = z.infer<typeof commentFormSchema>;
