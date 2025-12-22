@@ -1,46 +1,10 @@
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { Pencil, X, Trash2 } from 'lucide-react';
-import { usePost, useDeletePost, useComments, useIsOwner, OWNERSHIP_TYPES } from '@presentation/hooks';
-import { CommentTree, CreateComment, PostForm, IconButton, EmptyState, PostSkeleton, CommentSkeletonList, Modal } from '@presentation/components';
-import { formatPostDate } from '@presentation/utils';
+import { useParams, Link } from 'react-router-dom';
+import { useComments } from '@presentation/hooks';
+import { CommentTree, CreateComment, EmptyState, CommentSkeletonList, PostDetail } from '@presentation/components';
 
 export const PostDetailPage = () => {
   const { postId } = useParams<{ postId: string }>();
-  const navigate = useNavigate();
-  const { data: post, isLoading: isLoadingPost } = usePost(postId!);
   const { data: comments, isLoading: isLoadingComments } = useComments(postId!);
-  const deletePost = useDeletePost();
-  const [isEditing, setIsEditing] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const isPostOwner = useIsOwner(OWNERSHIP_TYPES.POST, postId!);
-
-  const handleDeleteClick = () => {
-    setIsDeleteModalOpen(true);
-  };
-
-  const handleDeleteConfirm = () => {
-    deletePost.mutate(postId!);
-    setIsDeleteModalOpen(false);
-    navigate('/');
-  };
-
-  if (isLoadingPost) {
-    return <PostSkeleton />;
-  }
-
-  if (!post) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center">
-          <h2 className="text-2xl font-display font-bold text-gray-dark mb-2">Post not found</h2>
-          <Link to="/" className="text-primary hover:text-primary-hover">
-            Back to home
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -51,7 +15,7 @@ export const PostDetailPage = () => {
       </div>
 
       <div>
-        <article className="bg-surface rounded-lg shadow-card p-6 mb-6">
+        {/* <section className="bg-surface rounded-lg shadow-card p-6 mb-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center space-x-3">
               <img
@@ -104,7 +68,8 @@ export const PostDetailPage = () => {
               </div>
             </>
           )}
-        </article>
+        </section> */}
+        <PostDetail postId={postId!} />
 
         <section className="bg-surface rounded-lg shadow-card p-6">
           <h2 className="text-2xl font-display font-bold text-gray-dark mb-6">
@@ -124,18 +89,6 @@ export const PostDetailPage = () => {
           )}
         </section>
       </div>
-
-      <Modal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={handleDeleteConfirm}
-        title="Delete post"
-        message="Are you sure you want to delete this post? This action cannot be undone."
-        confirmText="Delete"
-        cancelText="Cancel"
-        variant="danger"
-        isLoading={deletePost.isPending}
-      />
     </>
   );
 };

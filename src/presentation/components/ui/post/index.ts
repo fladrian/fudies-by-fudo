@@ -4,3 +4,4 @@ export * from './PostForm';
 export * from './PostList';
 export * from './PostSkeletonList';
 export * from './PostSkeleton';
+export * from './PostDetail';
