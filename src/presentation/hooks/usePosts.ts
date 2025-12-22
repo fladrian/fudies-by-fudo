@@ -1,33 +1,34 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { ApiPostRepository, type PostFormData } from '@data';
-import { PostUseCases } from '@application';
+import { useOwnershipStore } from '@application';
 import type { Post } from '@core';
 import type { UpdatePostParams } from '@data/types';
 
 const postRepository = new ApiPostRepository();
-const postUseCases = new PostUseCases(postRepository);
 
 export const usePosts = () => {
   return useQuery({
     queryKey: ['posts'],
-    queryFn: () => postUseCases.getPosts(),
+    queryFn: () => postRepository.getPosts(),
   });
 };
 
 export const usePost = (postId: Post['id']) => {
   return useQuery({
     queryKey: ['post', postId],
-    queryFn: () => postUseCases.getPost(postId),
+    queryFn: () => postRepository.getPost(postId),
     enabled: !!postId,
   });
 };
 
 export const useCreatePost = () => {
   const queryClient = useQueryClient();
+  const addOwnedPost = useOwnershipStore(state => state.addOwnedPost);
   return useMutation({
-    mutationFn: (post: PostFormData) => postUseCases.createPost(post),
-    onSuccess: () => {
+    mutationFn: (post: PostFormData) => postRepository.createPost(post),
+    onSuccess: (createdPost) => {
+      addOwnedPost(createdPost.id);
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       toast.success('Post created successfully');
     },
@@ -40,7 +41,7 @@ export const useCreatePost = () => {
 export const useUpdatePost = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ postId, post }: UpdatePostParams) => postUseCases.updatePost({ postId, post }),
+    mutationFn: ({ postId, post }: UpdatePostParams) => postRepository.updatePost({ postId, post }),
     onSuccess: (_, { postId }) => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['post', postId] });
@@ -54,9 +55,11 @@ export const useUpdatePost = () => {
 
 export const useDeletePost = () => {
   const queryClient = useQueryClient();
+  const removeOwnedPost = useOwnershipStore(state => state.removeOwnedPost);
   return useMutation({
-    mutationFn: (postId: Post['id']) => postUseCases.deletePost(postId),
-    onSuccess: () => {
+    mutationFn: (postId: Post['id']) => postRepository.deletePost(postId),
+    onSuccess: (_, postId) => {
+      removeOwnedPost(postId);
       queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
