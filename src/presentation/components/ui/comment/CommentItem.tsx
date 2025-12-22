@@ -4,6 +4,7 @@ import { useDeleteComment, useIsOwner } from '@presentation/hooks';
 import { CommentForm, CreateComment, IconButton, Modal } from '@presentation/components';
 import { formatCommentDate, tw } from '@presentation/utils';
 import type { Comment } from '@core';
+import { OWNERSHIP_TYPES } from '@presentation/hooks';
 
 interface CommentItemProps {
   comment: Comment;
@@ -16,14 +17,14 @@ export const CommentItem = ({ comment, postId, level }: CommentItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const deleteComment = useDeleteComment();
-  const isOwner = useIsOwner('comment', comment.id);
+  const isOwner = useIsOwner(OWNERSHIP_TYPES.COMMENT, comment.id);
 
   const handleDeleteClick = () => {
     setIsDeleteModalOpen(true);
   };
 
-  const handleDeleteConfirm = async () => {
-    await deleteComment.mutateAsync({ postId, commentId: comment.id });
+  const handleDeleteConfirm = () => {
+    deleteComment.mutate({ postId, commentId: comment.id });
     setIsDeleteModalOpen(false);
   };
 

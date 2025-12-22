@@ -56,7 +56,7 @@ export const useDeleteComment = () => {
       commentUseCases.deleteComment({ postId, commentId }),
     onSuccess: (_, { postId }) => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
-    },
+    }
   });
 };
 

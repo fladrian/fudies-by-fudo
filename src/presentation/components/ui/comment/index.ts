@@ -4,3 +4,4 @@ export * from './CommentTree';
 export * from './CreateComment';
 export * from './CommentSkeleton';
 export * from './CommentSkeletonList';
+export * from './Comment';
