@@ -66,11 +66,6 @@ La aplicación está construida con una arquitectura limpia, separando las capas
    ```env
    VITE_API_URL=https://665de6d7e88051d60408c32d.mockapi.io
    ```
-   
-   **Nota:** Para desarrollo local con un backend, usa:
-   ```env
-   VITE_API_URL=http://localhost:3000/api
-   ```
 
 4. **Iniciar servidor de desarrollo**
    ```bash
