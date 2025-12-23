@@ -31,6 +31,7 @@ export const CommentForm = ({
   const userName = useUserStore(store => store.name)
   const avatar = useUserStore(store => store.avatar)
   const clearUser = useUserStore(store => store.clearUser)
+  const isPending = createComment.isPending ?? updateComment.isPending
 
   const {
     register,
@@ -48,15 +49,14 @@ export const CommentForm = ({
           parentId: comment.parentId ?? null,
         }
       : {
-          name: userName || '',
-          avatar: avatar || '',
+          name: userName ?? '',
+          avatar: avatar ?? '',
           content: '',
-          parentId: parentId || null,
+          parentId: parentId ?? null,
         },
   })
 
-  const onSubmit = async (data: CommentFormData) => {
-    try {
+  const onSubmit = (data: CommentFormData) => {
       if (isEditing && comment) {
         updateComment.mutate({
           postId,
@@ -70,7 +70,6 @@ export const CommentForm = ({
         })
         onSuccess?.()
       } else {
-        // Guardar name y avatar en el store si no están guardados
         if (data.name && data.avatar) {
           setName(data.name)
           setAvatar(data.avatar)
@@ -85,13 +84,13 @@ export const CommentForm = ({
             parentId: data.parentId ?? null,
             createdAt: getCurrentDateISO(),
           },
+        }, {
+          onSuccess: () => {
+            reset({ content: '', parentId: data.parentId ?? null })
+            onSuccess?.()
+          },
         })
-        reset({ content: '', parentId: data.parentId ?? null })
-        onSuccess?.()
       }
-    } catch (error) {
-      console.error('Error al guardar el comentario:', error)
-    }
   }
 
   return (
@@ -153,8 +152,8 @@ export const CommentForm = ({
         )}
         <Button
           type="submit"
-          isLoading={createComment.isPending || updateComment.isPending}
-          disabled={createComment.isPending || updateComment.isPending}
+          isLoading={isPending}
+          disabled={isPending}
         >
           {isEditing ? 'Update' : 'Comment'}
         </Button>

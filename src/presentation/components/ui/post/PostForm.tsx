@@ -40,8 +40,8 @@ export const PostForm = ({ post, onSuccess, onCancel }: PostFormProps) => {
           avatar: post.avatar ?? '',
         }
       : {
-          name: userName || '',
-          avatar: avatar || '',
+          name: userName ?? '',
+          avatar: avatar ?? '',
         },
   })
 
@@ -55,8 +55,7 @@ export const PostForm = ({ post, onSuccess, onCancel }: PostFormProps) => {
     onSuccess?.()
   }
 
-  const onSubmit = async (data: PostFormData) => {
-    try {
+  const onSubmit = (data: PostFormData) => {
       if (isEditing && post) {
         updatePost.mutate({
           postId: post.id,
@@ -79,12 +78,12 @@ export const PostForm = ({ post, onSuccess, onCancel }: PostFormProps) => {
           name: data.name,
           avatar: data.avatar ?? '',
           createdAt: getCurrentDateISO(),
+        }, {
+          onSuccess: () => {
+            handleSuccess()
+          },
         })
       }
-      handleSuccess()
-    } catch (error) {
-      console.error('Error al guardar el post:', error)
-    }
   }
 
   return (
