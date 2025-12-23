@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@test/utils/test-utils'
+import { render, screen, waitFor } from '@test/utils/testUtils'
 import userEvent from '@testing-library/user-event'
 import { CommentForm } from '@presentation/components/ui/comment/CommentForm'
 import * as hooks from '@presentation/hooks'

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@test/utils/test-utils'
+import { render, screen, waitFor } from '@test/utils/testUtils'
 import userEvent from '@testing-library/user-event'
 import { PostDetail } from '@presentation/components/ui/post/PostDetail'
 import * as hooks from '@presentation/hooks'
