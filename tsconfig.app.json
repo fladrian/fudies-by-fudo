@@ -35,7 +35,8 @@
       "@application": ["src/application/index.ts"],
       "@presentation/*": ["src/presentation/*"],
       "@presentation": ["src/presentation/index.ts"],
-      "@shared/*": ["src/shared/*"]
+      "@shared/*": ["src/shared/*"],
+      "@test/*": ["src/test/*"]
     }
   },
   "include": ["src"]
