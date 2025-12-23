@@ -1,2 +1,2 @@
-export * from './ownershipStore';
-export * from './userStore';
+export * from './ownershipStore'
+export * from './userStore'

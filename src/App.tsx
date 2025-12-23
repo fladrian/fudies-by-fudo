@@ -1,7 +1,7 @@
-import { Routes, Route } from 'react-router-dom';
-import { Toaster } from 'sonner';
-import { HomePage, PostDetailPage } from '@presentation/pages';
-import { MainLayout } from '@presentation/layouts';
+import { Routes, Route } from 'react-router-dom'
+import { Toaster } from 'sonner'
+import { HomePage, PostDetailPage } from '@presentation/pages'
+import { MainLayout } from '@presentation/layouts'
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       </MainLayout>
       <Toaster position="top-right" richColors />
     </>
-  );
+  )
 }
 
-export default App;
+export default App

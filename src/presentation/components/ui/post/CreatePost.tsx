@@ -1,18 +1,17 @@
-import { useState } from 'react';
-import { Plus, X } from 'lucide-react';
-import { PostForm, Button } from '@presentation/components';
+import { useState } from 'react'
+import { Plus, X } from 'lucide-react'
+import { PostForm, Button } from '@presentation/components'
 
 export const CreatePost = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false)
 
   const handleToggle = () => {
-    setIsVisible((prev) => !prev);
-  };
-
+    setIsVisible(prev => !prev)
+  }
 
   return (
     <div className="relative">
-      <div className='flex justify-end mb-4'>
+      <div className="flex justify-end mb-4">
         <Button
           onClick={handleToggle}
           variant={isVisible ? 'secondary' : 'primary'}
@@ -21,13 +20,7 @@ export const CreatePost = () => {
           {isVisible ? 'Cancel' : 'New Post'}
         </Button>
       </div>
-      {isVisible && (
-        <PostForm
-          onSuccess={handleToggle}
-          onCancel={handleToggle}
-        />
-      )}
+      {isVisible && <PostForm onSuccess={handleToggle} onCancel={handleToggle} />}
     </div>
-  );
-};
-
+  )
+}

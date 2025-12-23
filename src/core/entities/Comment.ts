@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 export const comment = z.object({
   id: z.string(),
@@ -7,7 +7,6 @@ export const comment = z.object({
   avatar: z.string(),
   parentId: z.string().nullable(),
   createdAt: z.string().transform((str: string) => new Date(str)),
-});
+})
 
-export type Comment = z.infer<typeof comment>;
-
+export type Comment = z.infer<typeof comment>

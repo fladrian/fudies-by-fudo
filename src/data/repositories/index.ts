@@ -1,2 +1,2 @@
-export * from './ApiPostRepository';
-export * from './ApiCommentRepository';
+export * from './ApiPostRepository'
+export * from './ApiCommentRepository'

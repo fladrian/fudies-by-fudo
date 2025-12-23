@@ -1,31 +1,36 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useCreateComment, useUpdateComment } from '@presentation/hooks';
-import { Button, Input, UserDisplay } from '@presentation/components';
-import { commentFormSchema, type CommentFormData } from '@data/schemas';
-import { useUserStore } from '@application';
-import type { Comment } from '@core';
-import { getCurrentDateISO } from '@presentation/utils';
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useCreateComment, useUpdateComment } from '@presentation/hooks'
+import { Button, Input, UserDisplay } from '@presentation/components'
+import { commentFormSchema, type CommentFormData } from '@data/schemas'
+import { useUserStore } from '@application'
+import type { Comment } from '@core'
+import { getCurrentDateISO } from '@presentation/utils'
 
 interface CommentFormProps {
-  postId: string;
-  parentId?: string | null;
-  comment?: Comment;
-  onSuccess?: () => void;
-  onCancel?: () => void;
+  postId: string
+  parentId?: string | null
+  comment?: Comment
+  onSuccess?: () => void
+  onCancel?: () => void
 }
 
-export const CommentForm = ({ postId, parentId, comment, onSuccess, onCancel }: CommentFormProps) => {
-  const createComment = useCreateComment();
-  const updateComment = useUpdateComment();
-    const isEditing = !!comment;
-  const hasStoredUser = useUserStore((state) => state.hasUser());
-  const setName = useUserStore(store => store.setName);
-  const setAvatar = useUserStore(store => store.setAvatar);
-  const userName = useUserStore(store => store.name);
-  const avatar = useUserStore(store => store.avatar);
-  const clearUser = useUserStore(store => store.clearUser);
-
+export const CommentForm = ({
+  postId,
+  parentId,
+  comment,
+  onSuccess,
+  onCancel,
+}: CommentFormProps) => {
+  const createComment = useCreateComment()
+  const updateComment = useUpdateComment()
+  const isEditing = !!comment
+  const hasStoredUser = useUserStore(state => state.hasUser())
+  const setName = useUserStore(store => store.setName)
+  const setAvatar = useUserStore(store => store.setAvatar)
+  const userName = useUserStore(store => store.name)
+  const avatar = useUserStore(store => store.avatar)
+  const clearUser = useUserStore(store => store.clearUser)
 
   const {
     register,
@@ -48,7 +53,7 @@ export const CommentForm = ({ postId, parentId, comment, onSuccess, onCancel }: 
           content: '',
           parentId: parentId || null,
         },
-  });
+  })
 
   const onSubmit = async (data: CommentFormData) => {
     try {
@@ -62,13 +67,13 @@ export const CommentForm = ({ postId, parentId, comment, onSuccess, onCancel }: 
             avatar: data.avatar ?? '',
             parentId: data.parentId ?? null,
           },
-        });
-        onSuccess?.();
+        })
+        onSuccess?.()
       } else {
         // Guardar name y avatar en el store si no están guardados
         if (data.name && data.avatar) {
-          setName(data.name);
-          setAvatar(data.avatar);
+          setName(data.name)
+          setAvatar(data.avatar)
         }
 
         createComment.mutate({
@@ -80,17 +85,20 @@ export const CommentForm = ({ postId, parentId, comment, onSuccess, onCancel }: 
             parentId: data.parentId ?? null,
             createdAt: getCurrentDateISO(),
           },
-        });
-        reset({ content: '', parentId: data.parentId ?? null });
-        onSuccess?.();
+        })
+        reset({ content: '', parentId: data.parentId ?? null })
+        onSuccess?.()
       }
     } catch (error) {
-      console.error('Error al guardar el comentario:', error);
+      console.error('Error al guardar el comentario:', error)
     }
-  };
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="bg-surface rounded-lg p-4 border border-surface-muted">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="bg-surface rounded-lg p-4 border border-surface-muted"
+    >
       <div className="space-y-3">
         {!isEditing && (
           <>
@@ -98,9 +106,9 @@ export const CommentForm = ({ postId, parentId, comment, onSuccess, onCancel }: 
               <UserDisplay
                 size="sm"
                 onClear={() => {
-                  clearUser();
-                  setValue('name', '');
-                  setValue('avatar', '');
+                  clearUser()
+                  setValue('name', '')
+                  setValue('avatar', '')
                 }}
               />
             ) : (
@@ -152,6 +160,5 @@ export const CommentForm = ({ postId, parentId, comment, onSuccess, onCancel }: 
         </Button>
       </div>
     </form>
-  );
-};
-
+  )
+}

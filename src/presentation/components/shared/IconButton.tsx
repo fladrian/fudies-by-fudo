@@ -1,12 +1,12 @@
-import type { ButtonHTMLAttributes } from 'react';
-import { Button } from './Button';
+import type { ButtonHTMLAttributes } from 'react'
+import { Button } from './Button'
 
 interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
-  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
-  isLoading?: boolean;
-  icon: React.ReactNode;
-  'aria-label': string;
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost'
+  size?: 'sm' | 'md' | 'lg'
+  isLoading?: boolean
+  icon: React.ReactNode
+  'aria-label': string
 }
 
 export const IconButton = ({
@@ -22,7 +22,7 @@ export const IconButton = ({
     sm: 'p-1.5',
     md: 'p-2',
     lg: 'p-2.5',
-  };
+  }
 
   return (
     <Button
@@ -35,6 +35,5 @@ export const IconButton = ({
     >
       {!isLoading && icon}
     </Button>
-  );
-};
-
+  )
+}

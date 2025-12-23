@@ -1,39 +1,44 @@
-import { useState } from 'react';
-import { Trash2, MessageSquare, Pencil, X } from 'lucide-react';
-import { useDeleteComment, useIsOwner } from '@presentation/hooks';
-import { CommentForm, CreateComment, IconButton, Modal } from '@presentation/components';
-import { formatCommentDate, tw } from '@presentation/utils';
-import type { Comment } from '@core';
-import { OWNERSHIP_TYPES } from '@presentation/hooks';
+import { useState } from 'react'
+import { Trash2, MessageSquare, Pencil, X } from 'lucide-react'
+import { useDeleteComment, useIsOwner } from '@presentation/hooks'
+import { CommentForm, CreateComment, IconButton, Modal } from '@presentation/components'
+import { formatCommentDate, tw } from '@presentation/utils'
+import type { Comment } from '@core'
+import { OWNERSHIP_TYPES } from '@presentation/hooks'
 
 interface CommentItemProps {
-  comment: Comment;
-  postId: string;
-  level: number;
+  comment: Comment
+  postId: string
+  level: number
 }
 
 export const CommentItem = ({ comment, postId, level }: CommentItemProps) => {
-  const [isReplying, setIsReplying] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const deleteComment = useDeleteComment();
-  const isOwner = useIsOwner(OWNERSHIP_TYPES.COMMENT, comment.id);
+  const [isReplying, setIsReplying] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const deleteComment = useDeleteComment()
+  const isOwner = useIsOwner(OWNERSHIP_TYPES.COMMENT, comment.id)
 
   const handleDeleteClick = () => {
-    setIsDeleteModalOpen(true);
-  };
+    setIsDeleteModalOpen(true)
+  }
 
   const handleDeleteConfirm = () => {
-    deleteComment.mutate({ postId, commentId: comment.id });
-    setIsDeleteModalOpen(false);
-  };
+    deleteComment.mutate({ postId, commentId: comment.id })
+    setIsDeleteModalOpen(false)
+  }
 
   const handleEditSuccess = () => {
-    setIsEditing(false);
-  };
+    setIsEditing(false)
+  }
 
   return (
-    <div className={tw('bg-surface-muted rounded-lg p-4', level > 0 && 'ml-8 mt-4 border-l-2 border-surface-muted pl-4')}>
+    <div
+      className={tw(
+        'bg-surface-muted rounded-lg p-4',
+        level > 0 && 'ml-8 mt-4 border-l-2 border-surface-muted pl-4'
+      )}
+    >
       <div className="flex items-start space-x-3">
         <img
           src={comment.avatar || 'https://via.placeholder.com/32'}
@@ -44,9 +49,7 @@ export const CommentItem = ({ comment, postId, level }: CommentItemProps) => {
           <div className="flex items-start justify-between mb-1">
             <div className="flex-1">
               <p className="font-semibold text-sm text-gray-dark">{comment.name}</p>
-              <p className="text-xs text-gray">
-                {formatCommentDate(comment.createdAt)}
-              </p>
+              <p className="text-xs text-gray">{formatCommentDate(comment.createdAt)}</p>
             </div>
             <div className="flex items-center gap-1 ml-2">
               <IconButton
@@ -116,6 +119,5 @@ export const CommentItem = ({ comment, postId, level }: CommentItemProps) => {
         isLoading={deleteComment.isPending}
       />
     </div>
-  );
-};
-
+  )
+}

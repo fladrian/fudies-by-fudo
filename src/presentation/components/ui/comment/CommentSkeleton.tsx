@@ -1,13 +1,18 @@
-import { Skeleton } from '@presentation/components';
-import { tw } from '@presentation/utils';
+import { Skeleton } from '@presentation/components'
+import { tw } from '@presentation/utils'
 
 interface CommentSkeletonProps {
-  level?: number;
+  level?: number
 }
 
 export const CommentSkeleton = ({ level = 0 }: CommentSkeletonProps) => {
   return (
-    <div className={tw('bg-surface-muted rounded-lg p-4', level > 0 && 'ml-8 mt-4 border-l-2 border-surface-muted pl-4')}>
+    <div
+      className={tw(
+        'bg-surface-muted rounded-lg p-4',
+        level > 0 && 'ml-8 mt-4 border-l-2 border-surface-muted pl-4'
+      )}
+    >
       <div className="flex items-start space-x-3">
         <Skeleton variant="circular" width={32} height={32} />
         <div className="flex-1 space-y-2">
@@ -25,6 +30,5 @@ export const CommentSkeleton = ({ level = 0 }: CommentSkeletonProps) => {
         </div>
       </div>
     </div>
-  );
-};
-
+  )
+}

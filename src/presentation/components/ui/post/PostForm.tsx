@@ -1,28 +1,28 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useCreatePost, useUpdatePost } from '@presentation/hooks';
-import { Button, Input, UserDisplay } from '@presentation/components';
-import { postFormSchema, type PostFormData } from '@data/schemas';
-import { useUserStore } from '@application';
-import type { Post } from '@core';
-import { getCurrentDateISO } from '@presentation/utils';
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useCreatePost, useUpdatePost } from '@presentation/hooks'
+import { Button, Input, UserDisplay } from '@presentation/components'
+import { postFormSchema, type PostFormData } from '@data/schemas'
+import { useUserStore } from '@application'
+import type { Post } from '@core'
+import { getCurrentDateISO } from '@presentation/utils'
 
 interface PostFormProps {
-  post?: Post;
-  onSuccess?: () => void;
-  onCancel?: () => void;
+  post?: Post
+  onSuccess?: () => void
+  onCancel?: () => void
 }
 
 export const PostForm = ({ post, onSuccess, onCancel }: PostFormProps) => {
-  const createPost = useCreatePost();
-  const updatePost = useUpdatePost();
-  const isEditing = !!post;
-  const avatar  = useUserStore(store => store.avatar);
-  const clearUser = useUserStore(store => store.clearUser);
-  const userName = useUserStore(store => store.name);
-  const setName = useUserStore(store => store.setName);
-  const setAvatar = useUserStore(store => store.setAvatar);
-  const hasStoredUser = useUserStore((state) => state.hasUser());
+  const createPost = useCreatePost()
+  const updatePost = useUpdatePost()
+  const isEditing = !!post
+  const avatar = useUserStore(store => store.avatar)
+  const clearUser = useUserStore(store => store.clearUser)
+  const userName = useUserStore(store => store.name)
+  const setName = useUserStore(store => store.setName)
+  const setAvatar = useUserStore(store => store.setAvatar)
+  const hasStoredUser = useUserStore(state => state.hasUser())
 
   const {
     register,
@@ -43,17 +43,17 @@ export const PostForm = ({ post, onSuccess, onCancel }: PostFormProps) => {
           name: userName || '',
           avatar: avatar || '',
         },
-  });
+  })
 
   const handleCancel = () => {
-    reset();
-    onCancel?.();
-  };
+    reset()
+    onCancel?.()
+  }
 
   const handleSuccess = () => {
-    reset();
-    onSuccess?.();
-  };
+    reset()
+    onSuccess?.()
+  }
 
   const onSubmit = async (data: PostFormData) => {
     try {
@@ -66,11 +66,11 @@ export const PostForm = ({ post, onSuccess, onCancel }: PostFormProps) => {
             name: data.name,
             avatar: data.avatar ?? '',
           },
-        });
+        })
       } else {
         if (data.name && data.avatar) {
-          setName(data.name);
-          setAvatar(data.avatar);
+          setName(data.name)
+          setAvatar(data.avatar)
         }
 
         createPost.mutate({
@@ -79,13 +79,13 @@ export const PostForm = ({ post, onSuccess, onCancel }: PostFormProps) => {
           name: data.name,
           avatar: data.avatar ?? '',
           createdAt: getCurrentDateISO(),
-        });
+        })
       }
-      handleSuccess();
+      handleSuccess()
     } catch (error) {
-      console.error('Error al guardar el post:', error);
+      console.error('Error al guardar el post:', error)
     }
-  };
+  }
 
   return (
     <div className="bg-surface rounded-lg shadow-card p-6">
@@ -98,9 +98,9 @@ export const PostForm = ({ post, onSuccess, onCancel }: PostFormProps) => {
           {!isEditing && hasStoredUser ? (
             <UserDisplay
               onClear={() => {
-                clearUser();
-                setValue('name', '');
-                setValue('avatar', '');
+                clearUser()
+                setValue('name', '')
+                setValue('avatar', '')
               }}
             />
           ) : (
@@ -155,5 +155,5 @@ export const PostForm = ({ post, onSuccess, onCancel }: PostFormProps) => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}

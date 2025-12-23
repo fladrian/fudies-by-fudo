@@ -1,21 +1,21 @@
-import { create } from 'zustand';
-import type { StateCreator } from 'zustand';
-import { persist } from 'zustand/middleware';
-import type { PersistOptions } from 'zustand/middleware';
+import { create } from 'zustand'
+import type { StateCreator } from 'zustand'
+import { persist } from 'zustand/middleware'
+import type { PersistOptions } from 'zustand/middleware'
 
 interface UserState {
-  name: string | null;
-  avatar: string | null;
-  setName: (name: string) => void;
-  setAvatar: (avatar: string) => void;
-  clearUser: () => void;
-  hasUser: () => boolean;
+  name: string | null
+  avatar: string | null
+  setName: (name: string) => void
+  setAvatar: (avatar: string) => void
+  clearUser: () => void
+  hasUser: () => boolean
 }
 
 type UserStatePersist = (
   config: StateCreator<UserState>,
   options: PersistOptions<UserState>
-) => StateCreator<UserState>;
+) => StateCreator<UserState>
 
 export const useUserStore = create<UserState>()(
   (persist as UserStatePersist)(
@@ -24,24 +24,24 @@ export const useUserStore = create<UserState>()(
       avatar: null,
 
       setName: (name: string) => {
-        set({ name });
+        set({ name })
       },
 
       setAvatar: (avatar: string) => {
-        set({ avatar });
+        set({ avatar })
       },
 
       clearUser: () => {
-        set({ name: null, avatar: null });
+        set({ name: null, avatar: null })
       },
 
       hasUser: () => {
-        const state = get();
-        return !!(state.name && state.avatar);
+        const state = get()
+        return !!(state.name && state.avatar)
       },
     }),
     {
       name: 'user-storage',
-    },
-  ),
-);
+    }
+  )
+)

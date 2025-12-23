@@ -1,7 +1,7 @@
-import { CommentSkeleton } from '@presentation/components';
+import { CommentSkeleton } from '@presentation/components'
 
 interface CommentSkeletonListProps {
-  count?: number;
+  count?: number
 }
 
 export const CommentSkeletonList = ({ count = 3 }: CommentSkeletonListProps) => {
@@ -11,6 +11,5 @@ export const CommentSkeletonList = ({ count = 3 }: CommentSkeletonListProps) => 
         <CommentSkeleton key={index} />
       ))}
     </div>
-  );
-};
-
+  )
+}

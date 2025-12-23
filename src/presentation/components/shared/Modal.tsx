@@ -1,18 +1,18 @@
-import { Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { X } from 'lucide-react';
-import { Button } from './Button';
+import { Fragment } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { X } from 'lucide-react'
+import { Button } from './Button'
 
 interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  title: string;
-  message: string;
-  confirmText?: string;
-  cancelText?: string;
-  variant?: 'danger' | 'primary';
-  isLoading?: boolean;
+  isOpen: boolean
+  onClose: () => void
+  onConfirm: () => void
+  title: string
+  message: string
+  confirmText?: string
+  cancelText?: string
+  variant?: 'danger' | 'primary'
+  isLoading?: boolean
 }
 
 export const Modal = ({
@@ -27,8 +27,8 @@ export const Modal = ({
   isLoading = false,
 }: ModalProps) => {
   const handleConfirm = () => {
-    onConfirm();
-  };
+    onConfirm()
+  }
 
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -75,12 +75,7 @@ export const Modal = ({
                 </div>
 
                 <div className="flex justify-end gap-3 p-6 border-t border-surface-muted">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={onClose}
-                    disabled={isLoading}
-                  >
+                  <Button variant="secondary" size="sm" onClick={onClose} disabled={isLoading}>
                     {cancelText}
                   </Button>
                   <Button
@@ -99,6 +94,5 @@ export const Modal = ({
         </div>
       </Dialog>
     </Transition>
-  );
-};
-
+  )
+}

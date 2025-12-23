@@ -1,35 +1,35 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { OWNERSHIP_TYPES, useDeletePost, useIsOwner, usePost } from '@presentation/hooks';
-import { formatPostDate } from '@presentation/utils';
-import { IconButton, Modal, PostForm, PostSkeleton } from '@presentation/components';
-import { Pencil, X, Trash2 } from 'lucide-react';
-import type { Post } from '@core';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'
+import { OWNERSHIP_TYPES, useDeletePost, useIsOwner, usePost } from '@presentation/hooks'
+import { formatPostDate } from '@presentation/utils'
+import { IconButton, Modal, PostForm, PostSkeleton } from '@presentation/components'
+import { Pencil, X, Trash2 } from 'lucide-react'
+import type { Post } from '@core'
+import { useState } from 'react'
 
 interface PostDetailProps {
-  postId: Post['id'];
+  postId: Post['id']
 }
 
 export const PostDetail = ({ postId }: PostDetailProps) => {
-  const navigate = useNavigate();
-  const { data: post, isPending } = usePost(postId!);
-  const isPostOwner = useIsOwner(OWNERSHIP_TYPES.POST, postId!);
-  const deletePost = useDeletePost();
-  const [isEditing, setIsEditing] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const navigate = useNavigate()
+  const { data: post, isPending } = usePost(postId!)
+  const isPostOwner = useIsOwner(OWNERSHIP_TYPES.POST, postId!)
+  const deletePost = useDeletePost()
+  const [isEditing, setIsEditing] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const handleDeleteClick = () => {
-    setIsDeleteModalOpen(true);
-  };
+    setIsDeleteModalOpen(true)
+  }
 
   const handleDeleteConfirm = () => {
-    deletePost.mutate(postId!);
-    setIsDeleteModalOpen(false);
-    navigate('/');
-  };
+    deletePost.mutate(postId!)
+    setIsDeleteModalOpen(false)
+    navigate('/')
+  }
 
   if (isPending) {
-    return <PostSkeleton />;
+    return <PostSkeleton />
   }
 
   if (!post) {
@@ -42,7 +42,7 @@ export const PostDetail = ({ postId }: PostDetailProps) => {
           </Link>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -59,61 +59,58 @@ export const PostDetail = ({ postId }: PostDetailProps) => {
         isLoading={deletePost.isPending}
       />
 
+      <section className="bg-surface rounded-lg shadow-card p-6 mb-6">
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center space-x-3">
+            <img
+              src={post.avatar || 'https://via.placeholder.com/48'}
+              alt={post.name}
+              className="w-12 h-12 rounded-full"
+            />
+            <div>
+              <p className="font-semibold text-gray-dark">{post.name}</p>
+              <p className="text-sm text-gray">{formatPostDate(post.createdAt)}</p>
+            </div>
+          </div>
+          {isPostOwner && (
+            <div className="flex space-x-2">
+              <IconButton
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsEditing(!isEditing)}
+                icon={isEditing ? <X size={16} /> : <Pencil size={16} />}
+                aria-label={isEditing ? 'Cancel edit' : 'Edit post'}
+              />
+              <IconButton
+                variant="danger"
+                size="sm"
+                onClick={handleDeleteClick}
+                isLoading={deletePost.isPending}
+                disabled={deletePost.isPending}
+                icon={<Trash2 size={16} />}
+                aria-label="Delete post"
+              />
+            </div>
+          )}
+        </div>
 
-    <section className="bg-surface rounded-lg shadow-card p-6 mb-6">
-    <div className="flex items-start justify-between mb-4">
-      <div className="flex items-center space-x-3">
-        <img
-          src={post.avatar || 'https://via.placeholder.com/48'}
-          alt={post.name}
-          className="w-12 h-12 rounded-full"
-        />
-        <div>
-          <p className="font-semibold text-gray-dark">{post.name}</p>
-          <p className="text-sm text-gray">
-            {formatPostDate(post.createdAt)}
-          </p>
-        </div>
-      </div>
-      {isPostOwner && (
-        <div className="flex space-x-2">
-          <IconButton
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsEditing(!isEditing)}
-            icon={isEditing ? <X size={16} /> : <Pencil size={16} />}
-            aria-label={isEditing ? 'Cancel edit' : 'Edit post'}
-          />
-          <IconButton
-            variant="danger"
-            size="sm"
-            onClick={handleDeleteClick}
-            isLoading={deletePost.isPending}
-            disabled={deletePost.isPending}
-            icon={<Trash2 size={16} />}
-            aria-label="Delete post"
-          />
-        </div>
-      )}
-    </div>
-
-    {isEditing ? (
-      <div className="mt-4">
-        <PostForm
-          post={post}
-          onSuccess={() => setIsEditing(false)}
-          onCancel={() => setIsEditing(false)}
-        />
-      </div>
-    ) : (
-      <>
-        <h1 className="text-3xl font-display font-bold text-gray-dark mb-4">{post.title}</h1>
-        <div className="prose max-w-none">
-          <p className="text-gray-dark whitespace-pre-wrap leading-relaxed">{post.content}</p>
-        </div>
-      </>
-    )}
-  </section>
-  </>
+        {isEditing ? (
+          <div className="mt-4">
+            <PostForm
+              post={post}
+              onSuccess={() => setIsEditing(false)}
+              onCancel={() => setIsEditing(false)}
+            />
+          </div>
+        ) : (
+          <>
+            <h1 className="text-3xl font-display font-bold text-gray-dark mb-4">{post.title}</h1>
+            <div className="prose max-w-none">
+              <p className="text-gray-dark whitespace-pre-wrap leading-relaxed">{post.content}</p>
+            </div>
+          </>
+        )}
+      </section>
+    </>
   )
 }

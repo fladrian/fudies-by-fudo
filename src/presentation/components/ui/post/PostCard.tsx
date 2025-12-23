@@ -1,35 +1,35 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { Pencil, X, Trash2, ArrowRight } from 'lucide-react';
-import { useDeletePost, useIsOwner } from '@presentation/hooks';
-import { PostForm, IconButton, Modal } from '@presentation/components';
-import { formatPostDate } from '@presentation/utils';
-import type { Post } from '@core';
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Pencil, X, Trash2, ArrowRight } from 'lucide-react'
+import { useDeletePost, useIsOwner } from '@presentation/hooks'
+import { PostForm, IconButton, Modal } from '@presentation/components'
+import { formatPostDate } from '@presentation/utils'
+import type { Post } from '@core'
 
 interface PostCardProps {
-  post: Post;
-  onPostUpdated?: () => void;
+  post: Post
+  onPostUpdated?: () => void
 }
 
 export const PostCard = ({ post, onPostUpdated }: PostCardProps) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const deletePost = useDeletePost();
-  const isOwner = useIsOwner('post', post.id);
+  const [isEditing, setIsEditing] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const deletePost = useDeletePost()
+  const isOwner = useIsOwner('post', post.id)
 
   const handleDeleteClick = () => {
-    setIsDeleteModalOpen(true);
-  };
+    setIsDeleteModalOpen(true)
+  }
 
   const handleDeleteConfirm = async () => {
-    await deletePost.mutateAsync(post.id);
-    setIsDeleteModalOpen(false);
-  };
+    await deletePost.mutateAsync(post.id)
+    setIsDeleteModalOpen(false)
+  }
 
   const handleEditSuccess = () => {
-    setIsEditing(false);
-    onPostUpdated?.();
-  };
+    setIsEditing(false)
+    onPostUpdated?.()
+  }
 
   return (
     <article className="bg-surface rounded-lg shadow-card p-6 hover:shadow-card-hover transition-shadow">
@@ -42,9 +42,7 @@ export const PostCard = ({ post, onPostUpdated }: PostCardProps) => {
           />
           <div>
             <p className="font-semibold text-gray-dark">{post.name}</p>
-            <p className="text-sm text-gray">
-              {formatPostDate(post.createdAt)}
-            </p>
+            <p className="text-sm text-gray">{formatPostDate(post.createdAt)}</p>
           </div>
         </div>
         {isOwner && (
@@ -70,23 +68,19 @@ export const PostCard = ({ post, onPostUpdated }: PostCardProps) => {
       </div>
 
       {isEditing ? (
-        <PostForm
-          post={post}
-          onSuccess={handleEditSuccess}
-          onCancel={() => setIsEditing(false)}
-        />
+        <PostForm post={post} onSuccess={handleEditSuccess} onCancel={() => setIsEditing(false)} />
       ) : (
         <>
           <h2 className="text-xl font-display font-bold text-gray-dark mb-2">{post.title}</h2>
           <p className="text-gray-dark mb-4 whitespace-pre-wrap">{post.content}</p>
 
           <div className="flex justify-end">
-          <Link
-            to={`/post/${post.id}`}
-            className="text-primary hover:bg-primary-light font-medium transition-colors flex items-center gap-2 px-4 py-2 rounded-md"
-          >
-            Read more <ArrowRight size={16} />
-          </Link>
+            <Link
+              to={`/post/${post.id}`}
+              className="text-primary hover:bg-primary-light font-medium transition-colors flex items-center gap-2 px-4 py-2 rounded-md"
+            >
+              Read more <ArrowRight size={16} />
+            </Link>
           </div>
         </>
       )}
@@ -103,6 +97,5 @@ export const PostCard = ({ post, onPostUpdated }: PostCardProps) => {
         isLoading={deletePost.isPending}
       />
     </article>
-  );
-};
-
+  )
+}

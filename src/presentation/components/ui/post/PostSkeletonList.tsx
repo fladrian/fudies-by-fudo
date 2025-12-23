@@ -1,7 +1,7 @@
-import { PostSkeleton } from '@presentation/components';
+import { PostSkeleton } from '@presentation/components'
 
 interface PostSkeletonListProps {
-  count?: number;
+  count?: number
 }
 
 export const PostSkeletonList = ({ count = 3 }: PostSkeletonListProps) => {
@@ -11,6 +11,5 @@ export const PostSkeletonList = ({ count = 3 }: PostSkeletonListProps) => {
         <PostSkeleton key={index} />
       ))}
     </div>
-  );
-};
-
+  )
+}

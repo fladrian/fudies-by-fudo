@@ -1,4 +1,4 @@
-import { Skeleton } from '@presentation/components';
+import { Skeleton } from '@presentation/components'
 
 export const PostSkeleton = () => {
   return (
@@ -28,6 +28,5 @@ export const PostSkeleton = () => {
         <Skeleton variant="text" width={100} height={16} />
       </div>
     </article>
-  );
-};
-
+  )
+}
