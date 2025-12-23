@@ -1,19 +1,20 @@
-import { UserList, PostList } from '@presentation';
+import { Routes, Route } from 'react-router-dom'
+import { Toaster } from 'sonner'
+import { HomePage, PostDetailPage } from '@presentation/pages'
+import { MainLayout } from '@presentation/layouts'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <header className="mb-8 text-center">
-        <h1 className="text-3xl font-bold text-gray-800">React Clean Architecture Boilerplate</h1>
-        <p className="text-gray-600 mt-2">Vite + React + TS + Zustand + Query + Tailwind</p>
-      </header>
-      
-      <main className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <UserList />
-        <PostList />
-      </main>
-    </div>
-  );
+    <>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/post/:postId" element={<PostDetailPage />} />
+        </Routes>
+      </MainLayout>
+      <Toaster position="top-right" richColors />
+    </>
+  )
 }
 
-export default App;
+export default App
