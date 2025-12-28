@@ -103,7 +103,7 @@ pnpm format:check     # Verifica formato sin modificar
 Para construir la imagen con las variables de entorno necesarias, pasa el argumento `VITE_API_URL`:
 
 ```bash
-docker build --build-arg VITE_API_URL=https://665de6d7e88051d60408c32d.mockapi.io -t fudies-by-fudo .
+docker build --build-arg VITE_API_URL=YOUR_API_URL -t fudies-by-fudo .
 ```
 
 O si quieres usar tu archivo `.env` local:
