@@ -64,7 +64,7 @@ La aplicación está construida con una arquitectura limpia, separando las capas
    
    O crea un archivo `.env` en la raíz del proyecto:
    ```env
-   VITE_API_URL=https://665de6d7e88051d60408c32d.mockapi.io
+   VITE_API_URL=YOUR_API_URL
    ```
 
 4. **Iniciar servidor de desarrollo**
