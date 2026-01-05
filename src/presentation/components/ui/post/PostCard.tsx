@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { Pencil, X, Trash2, ArrowRight } from 'lucide-react'
 import { useDeletePost, useIsOwner } from '@presentation/hooks'
-import { PostForm, IconButton, Modal } from '@presentation/components'
+import { PostForm, IconButton, Modal, UserAvatar } from '@presentation/components'
 import { formatPostDate } from '@presentation/utils'
 import type { Post } from '@core'
 
@@ -34,17 +34,14 @@ export const PostCard = ({ post, onPostUpdated }: PostCardProps) => {
   return (
     <article className="bg-surface rounded-lg shadow-card p-6 hover:shadow-card-hover transition-shadow">
       <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center space-x-3">
-          <img
-            src={post.avatar || 'https://via.placeholder.com/40'}
-            alt={post.name}
-            className="w-10 h-10 rounded-full"
-          />
-          <div>
-            <p className="font-semibold text-gray-dark">{post.name}</p>
-            <p className="text-sm text-gray">{formatPostDate(post.createdAt)}</p>
-          </div>
-        </div>
+        <UserAvatar
+          name={post.name}
+          avatar={post.avatar}
+          date={post.createdAt}
+          size="md"
+          showDate={true}
+          dateFormatter={formatPostDate}
+        />
         {isOwner && (
           <div className="flex space-x-2">
             <IconButton

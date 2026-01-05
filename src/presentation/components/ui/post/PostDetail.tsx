@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { OWNERSHIP_TYPES, useDeletePost, useIsOwner, usePost } from '@presentation/hooks'
 import { formatPostDate } from '@presentation/utils'
-import { IconButton, Modal, PostForm, PostSkeleton } from '@presentation/components'
+import { IconButton, Modal, PostForm, PostSkeleton, UserAvatar } from '@presentation/components'
 import { Pencil, X, Trash2 } from 'lucide-react'
 import type { Post } from '@core'
 import { useState } from 'react'
@@ -61,17 +61,14 @@ export const PostDetail = ({ postId }: PostDetailProps) => {
 
       <section className="bg-surface rounded-lg shadow-card p-6 mb-6">
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <img
-              src={post.avatar || 'https://via.placeholder.com/48'}
-              alt={post.name}
-              className="w-12 h-12 rounded-full"
-            />
-            <div>
-              <p className="font-semibold text-gray-dark">{post.name}</p>
-              <p className="text-sm text-gray">{formatPostDate(post.createdAt)}</p>
-            </div>
-          </div>
+          <UserAvatar
+            name={post.name}
+            avatar={post.avatar}
+            date={post.createdAt}
+            size="lg"
+            showDate={true}
+            dateFormatter={formatPostDate}
+          />
           {isPostOwner && (
             <div className="flex space-x-2">
               <IconButton

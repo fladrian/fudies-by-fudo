@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Trash2, MessageSquare, Pencil, X } from 'lucide-react'
 import { useDeleteComment, useIsOwner } from '@presentation/hooks'
-import { CommentForm, CreateComment, IconButton, Modal } from '@presentation/components'
+import { CommentForm, CreateComment, IconButton, Modal, UserAvatar } from '@presentation/components'
 import { formatCommentDate, tw } from '@presentation/utils'
 import type { Comment } from '@core'
 import { OWNERSHIP_TYPES } from '@presentation/hooks'
@@ -40,10 +40,11 @@ export const CommentItem = ({ comment, postId, level }: CommentItemProps) => {
       )}
     >
       <div className="flex items-start space-x-3">
-        <img
-          src={comment.avatar || 'https://via.placeholder.com/32'}
-          alt={comment.name}
-          className="w-8 h-8 rounded-full flex-shrink-0"
+        <UserAvatar
+          name={comment.name}
+          avatar={comment.avatar}
+          size="sm"
+          avatarOnly={true}
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between mb-1">
